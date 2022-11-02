@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import http from 'http';
 import mongoose from 'mongoose';
 import config from './config/config';
+import routers from './routers';
 import Logger from './utils/Logger';
 
 const app = express();
@@ -33,14 +34,14 @@ const startServer = () => {
 
   app.use((req: Request, res: Response, next: NextFunction) => {
     Logger.log(
-      `Incoming request: -> Method: [${req.method}] -> Url [${req.url}] 
+      `Incoming request: -> Method: [${req.method}] -> Url [${req.url}]
     -> IP [${req.socket.remoteAddress}]`
     );
 
     // On request method
     res.on('finish', () => {
       Logger.log(
-        `Incoming request: -> Method: [${req.method}] -> Url [${req.url}] 
+        `Incoming request: -> Method: [${req.method}] -> Url [${req.url}]
     -> IP [${req.socket.remoteAddress}] -> status: [${req.statusCode}]`
       );
     });
@@ -48,20 +49,25 @@ const startServer = () => {
     next();
   });
 
+  // error handler
+  app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+    Logger.error(error);
+    res.status(500).json({
+      message: error,
+    });
+  });
+
   app.get('/ping', (req, res, next) =>
     res.status(200).json({ message: 'pong' })
   );
 
-  app.use((req, res, next) => {
-    const error = new Error('Not found');
-    Logger.error(error);
-    return res.status(404).json({ message: error.message });
-    // next(error);
-  });
+  // Routes
+  routers(app)
 
-  http.createServer(app).listen(config.server.port, () => {
-    Logger.log('listening on port ' + config.server.port);
-  });
+  const server = http.createServer(app);
+  server.listen(config.server.port, () =>
+    Logger.log(`Server running on port ${config.server.port}`)
+  );
 };
 
 startServer();

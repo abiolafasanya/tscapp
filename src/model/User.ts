@@ -1,76 +1,62 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema, model } from 'mongoose';
 
-const { model, Schema } = mongoose;
+interface ProfileDocument extends Document {
+  userId: mongoose.Schema.Types.ObjectId;
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+  image?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface UserDocument extends Document {
+  userId: mongoose.Schema.Types.ObjectId;
+  profileId?: mongoose.Schema.Types.ObjectId;
+  role?: number;
+  verified?: boolean;
+  refreshToken?: string;
+  googleId?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+enum Role {
+  user,
+  student,
+  teacher,
+  admin,
+  superAdmin,
+}
 
 const UserSchema = new Schema(
   {
-    username: {
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'auths' },
+    profileId: { type: mongoose.Schema.Types.ObjectId, ref: 'profiles' },
+    verified: { type: Boolean, default: false },
+    refreshToken: String,
+    role: { type: Number, enum: Role, default: Role.user },
+    googleId: {
       type: String,
-      min: 3,
-      trim: true,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      select: false,
+      default: '',
     },
   },
   { timestamps: true }
 );
 
-const StudentSchema = new Schema(
+const ProfileSchema = new Schema(
   {
-    firstname: {
-      type: String,
-      required: true,
-      min: 3,
-    },
-    lastname: {
-      type: String,
-      required: true,
-      min: 3,
-    },
-    classId: {
-      type: String,
-      required: true,
-      min: 3,
-    },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'auths' },
+    firstname: String,
+    lastname: String,
+    email: String,
+    department: String,
+    classId: String,
     club: String,
+    phone: String,
   },
   { timestamps: true }
 );
 
-const TeacherSchema = new Schema(
-  {
-    firstname: {
-      type: String,
-      required: true,
-      min: 3,
-    },
-    lastname: {
-      type: String,
-      required: true,
-      min: 3,
-    },
-    classId: {
-      type: String,
-      required: true,
-      min: 3,
-    },
-  },
-  { timestamps: true }
-);
-
-const RoleSchema = new Schema({
-  role: {
-    type: String,
-    enum: ['teacher', 'student', 'manager', 'user', 'admin', 'staff'],
-    default: 'user',
-  },
-});
-
-export const User = model('users', UserSchema);
-export const Teacher = model('users', TeacherSchema);
-export const Student = model('users', StudentSchema);
-export const Roles = model('users', RoleSchema);
+export default model<UserDocument>('users', UserSchema);
+export const Profile = model<ProfileDocument>('profiles', ProfileSchema);

@@ -10,6 +10,11 @@ class Logger {
 exports.default = Logger;
 _a = Logger;
 Logger.log = (args) => _a.info(args);
-Logger.info = (args) => console.log(chalk_1.default.blue(`[${new Date().toLocaleString()}] [INFO]`), typeof args.info === 'string' ? chalk_1.default.blueBright(args) : args);
-Logger.warn = (args) => console.log(chalk_1.default.yellow(`[${new Date().toLocaleString()}] [INFO]`), typeof args.info === 'string' ? chalk_1.default.yellowBright(args) : args);
-Logger.error = (args) => console.log(chalk_1.default.red(`[${new Date().toLocaleString()}] [INFO]`), typeof args.info === 'string' ? chalk_1.default.redBright(args) : args);
+Logger.info = (args) => console.log(chalk_1.default.blue(`[${new Date().toLocaleString()}] [INFO]`), typeof args === 'string' ? chalk_1.default.blueBright(args) : args);
+// public static success = (args: any) =>
+//   console.log(
+//     chalk.cyan.bgGreen(`[${new Date().toLocaleString()}] [SUCCESS]`),
+//     typeof args === 'string' ? chalk.greenBright.bold.bgGreenBright(args) : args
+//   );
+Logger.warn = (args) => console.log(chalk_1.default.yellow(`[${new Date().toLocaleString()}] [WARNING]`), typeof args === 'string' ? chalk_1.default.yellowBright(args) : args);
+Logger.error = (args) => console.log(chalk_1.default.red(`[${new Date().toLocaleString()}] [ERROR]`), typeof args === 'string' ? chalk_1.default.redBright(args) : args);
