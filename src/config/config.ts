@@ -21,7 +21,7 @@ switch (process.env.NODE_ENV) {
 }
 
 const MONGO_URI = mongo_uri;
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 const config = {
   mongo: {
