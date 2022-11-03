@@ -6,7 +6,7 @@ import { FaBell } from 'react-icons/fa';
 import { sideBarMenu } from '../../data/index';
 
 const index = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   function toggle() {
     setOpen(!open);
   }

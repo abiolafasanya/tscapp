@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Iprops, SideMenu } from './../../utility/interfaces';
 import { FaArrowCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
 import Link from 'next/link';
+import { MdSearch } from 'react-icons/md';
 
 const Sidebar: React.FC<Iprops & SideMenu> = (props) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const { menu } = props;
   function toggleIcon(e: any) {
     setOpen(!open);
@@ -30,11 +31,26 @@ const Sidebar: React.FC<Iprops & SideMenu> = (props) => {
         </header>
         <main>
           <ul className="p-5 flex flex-col space-y-5">
+            <li className="relative">
+              <input
+                type="search"
+                placeholder="search course, category"
+                className="form-control"
+              />
+              <MdSearch
+                className={`${
+                  open ? 'right-5' : 'right-2'
+                } absolute  text-[22px] text-gray-500  top-5`}
+              />
+            </li>
+          </ul>
+          <div className="border my-4"></div>
+          <ul className="p-5 flex flex-col space-y-5">
             {menu.map((menu, id) => (
               <Link href={menu.link} key={id}>
                 <li className="flex space-x-4 items-center hover:bg-gray-300 p-2 rounded">
                   <menu.icon
-                    className={`${open ? 'text-[20px]' : 'text-[28px]'}`}
+                    className={`${open ? 'text-[28px]' : 'text-[20px]'}`}
                   />
                   {open && <span>{menu.name}</span>}
                 </li>
