@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Sidebar from './../../components/utility/Sidebar';
 import Container from '../../components/utility/Container';
 import { FaBell } from 'react-icons/fa';
-import { sideBarMenu } from '../../data/index';
+import { sideBarMenu, sideFooter } from '../../data/index';
 
 const index = () => {
   const [open, setOpen] = useState(false);
@@ -14,10 +14,11 @@ const index = () => {
     <div>
       <div className="flex bg-[#eee]">
         <Sidebar
+          footer={sideFooter}
           menu={sideBarMenu}
           className={`${
             open ? 'w-72' : 'w-20'
-          } duration-300 fixed bg-white  h-screen`}
+          } duration-300 fixed bg-white  h-full min-h-screen`}
           action={toggle}
         />
         <main className={`${open ? 'ml-72' : 'ml-20'} duration-300`}>

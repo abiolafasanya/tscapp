@@ -33,18 +33,13 @@ const startServer = () => {
   });
 
   app.use((req: Request, res: Response, next: NextFunction) => {
-    Logger.log(
-      `Incoming request: -> Method: [${req.method}] -> Url [${req.url}]
-    -> IP [${req.socket.remoteAddress}]`
-    );
-
     // On request method
-    res.on('finish', () => {
+    res.on('finish', () =>
       Logger.log(
         `Incoming request: -> Method: [${req.method}] -> Url [${req.url}]
-    -> IP [${req.socket.remoteAddress}] -> status: [${req.statusCode}]`
-      );
-    });
+    -> IP [${req.socket.remoteAddress}] -> status: [${res.statusCode}]`
+      )
+    );
 
     next();
   });
@@ -62,7 +57,7 @@ const startServer = () => {
   );
 
   // Routes
-  routers(app)
+  routers(app);
 
   const server = http.createServer(app);
   server.listen(config.server.port, () =>

@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { Iprops, SideMenu } from './../../utility/interfaces';
-import { FaArrowCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
+import {
+  FaArrowCircleRight,
+  FaArrowAltCircleLeft,
+  FaSignOutAlt,
+} from 'react-icons/fa';
+
 import Link from 'next/link';
 import { MdSearch } from 'react-icons/md';
 
 const Sidebar: React.FC<Iprops & SideMenu> = (props) => {
   const [open, setOpen] = useState(false);
-  const { menu } = props;
+  const { menu, footer } = props;
   function toggleIcon(e: any) {
     setOpen(!open);
     e();
@@ -30,7 +35,7 @@ const Sidebar: React.FC<Iprops & SideMenu> = (props) => {
           </button>
         </header>
         <main>
-          <ul className="p-5 flex flex-col space-y-5">
+          <ul className="px-5 py-3 flex flex-col">
             <li className="relative">
               <input
                 type="search"
@@ -45,21 +50,34 @@ const Sidebar: React.FC<Iprops & SideMenu> = (props) => {
             </li>
           </ul>
           <div className="border my-4"></div>
-          <ul className="p-5 flex flex-col space-y-5">
+          <ul className="p-5 flex flex-col space-y-2">
             {menu.map((menu, id) => (
               <Link href={menu.link} key={id}>
                 <li className="flex space-x-4 items-center hover:bg-gray-300 p-2 rounded">
                   <menu.icon
-                    className={`${open ? 'text-[28px]' : 'text-[20px]'}`}
+                    className={`${open ? 'text-[24px]' : 'text-[20px]'}`}
                   />
                   {open && <span>{menu.name}</span>}
                 </li>
               </Link>
             ))}
           </ul>
-          <div className="border my-4"></div>
+          <div className="border my-2"></div>
         </main>
-        <footer className="md:p-5 p-3">Footer Area</footer>
+        <footer className="md:px-5 px-3 ">
+          <ul className="flex flex-col space-y-1">
+            {footer.map((footer, id) => (
+              <Link href={footer.link} key={id}>
+                <li className="flex space-x-4 items-center hover:bg-gray-300 p-2 rounded">
+                  <footer.icon
+                    className={`${open ? 'text-[24px]' : 'text-[20px]'}`}
+                  />
+                  {open && <span>{footer.name}</span>}
+                </li>
+              </Link>
+            ))}
+          </ul>
+        </footer>
       </section>
     </div>
   );

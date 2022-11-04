@@ -3,10 +3,16 @@ import Card from '../components/utility/Card';
 import Container from '../components/utility/Container';
 import Layout from '../components/layout/Index';
 import { Iprops } from './../utility/interfaces';
+import Alert from '../components/utility/Alert';
+import { useRouter } from 'next/router';
 
 const Login: FC<Iprops> = (props) => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState('');
 
   async function handleLogin(e: any) {
     e.preventDefault();
@@ -25,7 +31,17 @@ const Login: FC<Iprops> = (props) => {
     setEmail('');
     setPassword('');
     let res = await req.json();
-    if (res.success) console.log(res.success);
+    if (res.success) {
+      setSuccess(true);
+      setMessage(res.message);
+      setTimeout(() => {
+        setSuccess(false);
+        router.push('/dashboard');
+      }, 5000);
+    } else {
+      setError(true);
+      setMessage(res.message || 'An error occurred');
+    }
     console.log(res);
   }
 
@@ -35,6 +51,16 @@ const Login: FC<Iprops> = (props) => {
         <Card className="border my-16 mx-auto rounded">
           <div>
             <h1 className="text-2xl font-semibold text-center">Login</h1>
+            {success && (
+              <Alert className="bg-green-300 border-green-500 text-green-800">
+                <p className="py-2 font-semibold">{message}</p>
+              </Alert>
+            )}
+            {error && (
+              <Alert className="bg-red-300 border-red-500 text-red-800">
+                <p className="py-2 font-semibold">{message}</p>
+              </Alert>
+            )}
             <form onSubmit={handleLogin}>
               <div className="form-group">
                 <label htmlFor="email">Email</label>
