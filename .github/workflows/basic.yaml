@@ -1,0 +1,19 @@
+# My YAML file
+myapp:
+  service: my-test-service
+  author: abiola fasanya
+  phone: 08102307473
+  email: harbiola78@gmail.com
+  secure: true
+  project:
+    - name: project1
+      link: https://github.com/project1
+      author: abiola fasanya
+    - name: project2
+      link: https://github.com/project2
+      author: samuel fasanya
+  categories: [cat1, cat2, cat3]
+  about: |
+    my name is abiola fasanya 
+    and i am learning about the yaml files
+    and it has been really exciting
