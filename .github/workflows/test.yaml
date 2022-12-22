@@ -4,5 +4,7 @@ jobs:
   print_hello:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - run: tree
       - run: echo "hello world!!!!!!!!!"
       - run: echo "this is step two"
