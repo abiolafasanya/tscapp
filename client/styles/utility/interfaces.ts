@@ -1,25 +1,6 @@
 import React from 'react';
 import { JwtPayload } from 'jsonwebtoken';
 
-// import IUser from './user';
-
-export interface IUser {
-  id: string;
-  userId?: string;
-  username?: string;
-  email?: string;
-}
-export interface IBlog {
-  _id: string;
-  title: string;
-  author: string | IUser;
-  content: string;
-  headline: string;
-  picture?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface Iprops extends React.PropsWithChildren {
   action?: any;
   className?: any;

@@ -10,18 +10,24 @@
     @apply rounded py-2 px-5;
   }
   .mycontainer {
-    @apply max-w-6xl mx-auto my-3 
+    @apply max-w-6xl mx-auto my-3;
   }
   .modal {
-    @apply  rounded bg-white w-3/4 md:w-1/2 sm:w-4/5 mx-auto px-5 py-3
+    @apply rounded bg-white w-3/4 md:w-1/2 sm:w-4/5 mx-auto px-5 py-3;
+  }
+  .form-group {
+    @apply my-2 block;
+  }
+  .form-label {
+    @apply mb-2 block font-semibold capitalize;
   }
   .form-control {
-    @apply rounded py-2 px-5  block w-full outline-none mt-2 focus:outline-blue-500 border bg-white
+    @apply rounded py-2 px-5  block w-full outline-none mt-2 focus:border-blue-500 border bg-blue-50;
   }
-  .form-group{
-    @apply block my-4
+  .form-group {
+    @apply block my-4;
   }
   .alert {
-    @apply rounded py-2 px-5 border
+    @apply rounded py-2 px-5 border;
   }
 }

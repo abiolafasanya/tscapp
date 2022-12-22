@@ -5,6 +5,8 @@ import Layout from '../components/layout/Index';
 import { Iprops } from './../utility/interfaces';
 import Alert from '../components/utility/Alert';
 import { useRouter } from 'next/router';
+import Axios from '../api/axios';
+import { setLocalStorage } from './../utility/storage';
 
 const Login: FC<Iprops> = (props) => {
   const router = useRouter();
@@ -18,31 +20,29 @@ const Login: FC<Iprops> = (props) => {
     e.preventDefault();
     console.log('Login in progress...');
     console.log({ email, password });
-    let data = { email, password };
+    let body = { email, password };
 
-    let req = await fetch('http://localhost:5000/api/auth', {
-      headers: {
-        'content-type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-
+    const { data, status, statusText } = await Axios.post('/api/auth', body);
+    console.log(data);
     setEmail('');
     setPassword('');
-    let res = await req.json();
-    if (res.success) {
+    if (status === 200) {
       setSuccess(true);
-      setMessage(res.message);
+      setError(false);
+      setMessage(data.message);
+      localStorage.removeItem('accessToken');
+      localStorage.setItem('accessToken', data.accessToken);
+      console.log(localStorage.getItem('accessToken'));
       setTimeout(() => {
         setSuccess(false);
         router.push('/dashboard');
       }, 5000);
     } else {
+      setSuccess(false);
       setError(true);
-      setMessage(res.message || 'An error occurred');
+      setMessage(data.message || 'An error occurred');
+      console.log(data, status, statusText);
     }
-    console.log(res);
   }
 
   return (

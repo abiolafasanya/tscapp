@@ -1,17 +1,19 @@
-import {Express, Response, NextFunction, Request} from 'express';
+import { Request } from 'express';
+import { Session } from 'inspector';
+import { JwtPayload } from 'jsonwebtoken';
 
-interface successMsg<T> extends Response {
+export interface successMsg<T> {
   success: boolean;
   message: string;
   data?: T;
   status?: number;
 }
 
-interface errorMsg<T> extends Response {
+export interface errorMsg {
   success: boolean;
   message: string;
   status?: number;
-  Error?: Error
+  Error?: Error;
 }
 
 interface IUser {
@@ -20,4 +22,6 @@ interface IUser {
   password: string;
 }
 
-
+export interface CustomRequest extends Request {
+  token: any | string | JwtPayload;
+}

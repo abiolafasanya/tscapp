@@ -16,6 +16,7 @@ interface UserDocument extends Document {
   role?: number;
   verified?: boolean;
   refreshToken?: string;
+  isActive?: boolean;
   googleId?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -34,6 +35,7 @@ const UserSchema = new Schema(
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'auths' },
     profileId: { type: mongoose.Schema.Types.ObjectId, ref: 'profiles' },
     verified: { type: Boolean, default: false },
+    isActive: { type: Boolean, default: false },
     refreshToken: String,
     role: { type: Number, enum: Role, default: Role.user },
     googleId: {

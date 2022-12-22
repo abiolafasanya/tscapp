@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithRef } from 'react';
+import React from 'react';
 import { Iprops } from './../../utility/interfaces';
 
 const Card: React.FC<Iprops> = (props) => {

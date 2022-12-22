@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { JwtPayload, Secret } from 'jsonwebtoken';
 
 dotenv.config();
 
@@ -31,6 +32,18 @@ const config = {
     port: PORT,
   },
   env: process.env.NODE_ENV,
+  secret: {
+    jwt: process.env.JWT_SECRET_KEY || 'secret',
+    refresh: process.env.REFRESH_SECRET_KEY || '',
+    cookies: process.env.COOKIES_SECRET_KEY || '',
+  },
+  secretKey: (secret: any) => {
+    if (secret == null) {
+      secret = process.env.JWT_SECRET_KEY;
+    }
+    const SECRET_KEY: Secret = secret;
+    return SECRET_KEY;
+  },
 };
 
 export default config;

@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc && node ./dist/app.js",
     "dev": "nodemon ./src/app.ts",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "key:generate": "openssl rand -hex 48"
   },
   "keywords": [],
   "author": "abiola fasanya",
@@ -15,6 +16,7 @@
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",
     "@types/express": "^4.17.14",
+    "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "^18.11.7",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
@@ -22,14 +24,18 @@
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/express-session": "^1.17.5",
+    "@types/uuid": "^8.3.4",
     "bcrypt": "^5.1.0",
     "chalk": "^4.1.2",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "joi": "^17.6.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.0",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^9.0.0"
   }
 }

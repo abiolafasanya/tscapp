@@ -2,12 +2,19 @@ import React, { useState } from 'react';
 import Card from '../components/utility/Card';
 import Container from './../components/utility/Container';
 import Layout from '../components/layout/Index';
+import Axios from '../api/axios';
+import { useRouter } from 'next/router';
+import Alert from '../components/utility/Alert';
 
 const Register = () => {
+  const router = useRouter();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState('');
 
   async function handleRegistration(e: any) {
     e.preventDefault();
@@ -18,22 +25,31 @@ const Register = () => {
       password,
       confirmPassword,
     });
-    let data = { username, email, password, confirmPassword };
+    let body = { username, email, password, confirmPassword };
 
-    let req = await fetch('http://localhost:5000/api/auth/signup', {
-      headers: {
-        'content-type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    setUsername('');
-    setEmail('');
+    const { data, status, statusText } = await Axios.post(
+      '/api/auth/signup',
+      body
+    );
+
     setPassword('');
     setConfirmPassword('');
+    if (status === 201) {
+      setSuccess(true);
+      setError(false);
+      setMessage(data.message);
+      setUsername('');
+      setEmail('');
 
-    let res = await req.json();
-    console.log(res);
+      setTimeout(() => {
+        router.push('/login');
+      }, 5000);
+    } else {
+      setSuccess(false);
+      setError(true);
+      setMessage(data.message);
+    }
+    console.log(data, status, statusText);
   }
 
   return (
@@ -42,6 +58,16 @@ const Register = () => {
         <Card className="border my-16 mx-auto rounded">
           <div>
             <h1 className="text-2xl font-semibold text-center">Registration</h1>
+            {success && (
+              <Alert className="bg-green-300 border-green-500 text-green-800">
+                <p className="py-2 font-semibold">{message}</p>
+              </Alert>
+            )}
+            {error && (
+              <Alert className="bg-red-300 border-red-500 text-red-800">
+                <p className="py-2 font-semibold">{message}</p>
+              </Alert>
+            )}
             <form onSubmit={handleRegistration}>
               <div className="form-group">
                 <label htmlFor="username">Username</label>

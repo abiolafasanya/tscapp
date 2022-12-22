@@ -4,8 +4,22 @@ import mongoose from 'mongoose';
 import config from './config/config';
 import routers from './routers';
 import Logger from './utils/Logger';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import { v4 as genuuid } from 'uuid';
 
 const app = express();
+
+interface I_Session extends session.SessionOptions {}
+const sess: I_Session = {
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 60000 },
+  genid: function (req: Request) {
+    return genuuid(); // use UUIDs for session IDs
+  },
+};
 
 mongoose
   .connect(config.mongo.url, { retryWrites: true, w: 'majority' })
@@ -15,6 +29,8 @@ mongoose
 const startServer = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
+  app.use(cookieParser());
+  app.use(session(sess));
 
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '* ');
@@ -46,9 +62,10 @@ const startServer = () => {
 
   // error handler
   app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+    error = new Error('Server Error');
     Logger.error(error);
     res.status(500).json({
-      message: error,
+      message: error.message,
     });
   });
 
